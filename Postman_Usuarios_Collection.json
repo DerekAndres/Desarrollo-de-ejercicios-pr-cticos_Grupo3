@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "usuarios-crud-collection",
+		"name": "Usuarios API - CRUD",
+		"description": "Collection completa para probar el API de Usuarios con todos los endpoints CRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez\",\n    \"email\": \"juan.perez@example.com\",\n    \"password\": \"password123\",\n    \"rol\": \"usuario\",\n    \"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Crea un nuevo usuario. Los roles permitidos son: admin, usuario, moderador"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuario Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Admin User\",\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123456\",\n    \"rol\": \"admin\",\n    \"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Crea un usuario con rol de administrador"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuario Moderador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Moderador Test\",\n    \"email\": \"moderador@example.com\",\n    \"password\": \"moderador123\",\n    \"rol\": \"moderador\",\n    \"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Crea un usuario con rol de moderador"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todos los Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Obtiene la lista de todos los usuarios registrados (sin contraseñas)"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID del usuario a buscar"
+								}
+							]
+						},
+						"description": "Obtiene los datos de un usuario específico por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez Actualizado\",\n    \"email\": \"juan.actualizado@example.com\",\n    \"rol\": \"moderador\",\n    \"activo\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID del usuario a actualizar"
+								}
+							]
+						},
+						"description": "Actualiza los datos de un usuario existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Desactivar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activo\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID del usuario a desactivar"
+								}
+							]
+						},
+						"description": "Desactiva un usuario sin eliminarlo de la base de datos"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Último Login",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/:id/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								":id",
+								"login"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID del usuario"
+								}
+							]
+						},
+						"description": "Actualiza el campo ultimoLogin con la fecha/hora actual"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID del usuario a eliminar"
+								}
+							]
+						},
+						"description": "Elimina permanentemente un usuario de la base de datos"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personas",
+			"item": [
+				{
+					"name": "Crear Persona",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"María López\",\n    \"edad\": 28,\n    \"email\": \"maria.lopez@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/personas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"personas"
+							]
+						},
+						"description": "Crea una nueva persona"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todas las Personas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/personas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"personas"
+							]
+						},
+						"description": "Obtiene la lista de todas las personas"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Persona por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/personas/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"personas",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID de la persona a buscar"
+								}
+							]
+						},
+						"description": "Obtiene los datos de una persona específica"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Persona",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"María López Actualizada\",\n    \"edad\": 29,\n    \"email\": \"maria.nueva@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/personas/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"personas",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID de la persona a actualizar"
+								}
+							]
+						},
+						"description": "Actualiza los datos de una persona existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Persona",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/personas/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"personas",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "673bfba5e8c4e2d8a9123456",
+									"description": "ID de la persona a eliminar"
+								}
+							]
+						},
+						"description": "Elimina permanentemente una persona"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Verifica el estado del servidor y la conexión a MongoDB"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

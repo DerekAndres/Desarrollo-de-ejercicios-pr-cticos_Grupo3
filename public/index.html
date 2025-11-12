@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Personas CRUD</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Personas CRUD</h1>
+            <div id="status">
+                <span>API: <strong id="apiStatus">verificando..</strong></span>
+                <span>DB: <strong id="dbStatus">verificando..</strong></span>
+            </div>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>Crear / Editar Persona</h2>
+                <form id="personaForm">
+                    <input type="hidden" id="personaId" />
+                    <div class="field">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" name="nombre" type="text" placeholder="Ej. Juan" required />
+                    </div>
+                    <div class="field">
+                        <label for="edad">Edad</label>
+                        <input id="edad" name="edad" type="number" min="0" step="1" placeholder="Ej. 30" required />
+                    </div>
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" placeholder="ejemplo@correo.com" required />
+                    </div>
+                    <div class="actions">
+                        <button type="submit" id="saveBtn">Guardar</button>
+                        <button type="button" id="resetBtn" class="secondary">Limpiar</button>
+                    </div>
+                </form>
+                <p id="formMsg" class="msg"></p>
+            </section>
+
+            <section class="card">
+                <div class="listHeader">
+                    <h2>Listado de Personas</h2>
+                    <button id="refreshBtn" class="secondary">Refrescar</button>
+                </div>
+                <table id="personasTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Email</th>
+                            <th style="width:160px">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <p id="listMsg" class="msg"></p>
+            </section>
+        </main>
+
+
+        <script src="/app.js" defer></script>
+    </body>
+
+</html>
