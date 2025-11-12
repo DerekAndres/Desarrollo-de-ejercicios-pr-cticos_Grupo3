@@ -13,7 +13,9 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// Servir el frontend React compilado (después de npm run build en frontend/)
+// O mantener el viejo: app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
 // Routes
 app.use('/api/personas', personaRoutes);
@@ -29,12 +31,12 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Root - serve the frontend
+// Root - serve the frontend React build
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
 });
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port http://localhost:${port}`);
 });

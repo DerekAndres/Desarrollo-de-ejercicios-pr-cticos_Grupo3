@@ -5,7 +5,13 @@ export default function Layout({ header, children, footer }) {
     <div className="app-shell">
       <header className="app-header">{header}</header>
       <main className="app-main">{children}</main>
-      <footer className="app-footer">{footer || <span>© {new Date().getFullYear()} ActMongo</span>}</footer>
+      <footer className="app-footer">
+        {footer || (
+          <span>
+            Hecho con cuidado © {new Date().getFullYear()} ActMongo
+          </span>
+        )}
+      </footer>
     </div>
   );
 }

@@ -19,15 +19,39 @@ export default function HealthBadge() {
     return () => t && clearTimeout(t);
   }, []);
 
-  const color = state === 'connected' ? '#16a34a' : state === 'connecting' ? '#f59e0b' : '#dc2626';
+  const getColors = () => {
+    switch (state) {
+      case 'connected': return { bg: '#eef8f0', border: '#88b388', dot: '#88b388' };
+      case 'connecting': return { bg: '#fef9ed', border: '#e8c88c', dot: '#e8c88c' };
+      default: return { bg: '#fef5f4', border: '#d9988f', dot: '#d9988f' };
+    }
+  };
+
+  const colors = getColors();
 
   return (
     <span style={{
-      display: 'inline-flex', alignItems:'center', gap: '.4rem',
-      padding: '.25rem .5rem', borderRadius: '999px',
-      background: '#fff', border: `1px solid ${color}`, color
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      padding: '0.5rem 1rem',
+      borderRadius: '999px',
+      background: colors.bg,
+      border: `1px solid ${colors.border}`,
+      color: '#3d3935',
+      fontSize: '0.85rem',
+      fontWeight: '500',
+      letterSpacing: '0.3px',
+      transition: 'all 0.3s ease'
     }}>
-      <span style={{ width: 8, height: 8, borderRadius: '999px', background: color }} />
+      <span style={{
+        width: 10,
+        height: 10,
+        borderRadius: '999px',
+        background: colors.dot,
+        boxShadow: `0 0 0 3px ${colors.bg}`,
+        animation: state === 'connecting' ? 'pulse 2s infinite' : 'none'
+      }} />
       DB: {state}
     </span>
   );
