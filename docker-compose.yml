@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: actmongo-db
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: actuser
+      MONGO_INITDB_ROOT_PASSWORD: actpass
+      MONGO_INITDB_DATABASE: actmongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', 'localhost/actmongo', '--eval', 'db.runCommand({ ping: 1 })']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+  api:
+    build: .
+    container_name: actmongo-api
+    command: node server.js
+    env_file: .env
+    environment:
+      # Sobrescribe para usar credenciales de contenedor
+      MONGO_URI: mongodb://actuser:actpass@mongo:27017/actmongo?authSource=admin
+      PORT: 3000
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+volumes:
+  mongo_data:

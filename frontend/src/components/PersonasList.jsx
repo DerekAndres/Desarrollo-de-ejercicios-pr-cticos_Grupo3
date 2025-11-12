@@ -25,14 +25,22 @@ export default function PersonasList() {
     return () => { cancelled = true; };
   }, []);
 
-  if (loading) return <p className="status">Cargando personas...</p>;
-  if (error) return <p className="status error">{error}</p>;
+  if (loading) return (
+    <div className="card">
+      <div className="card-header"><h2>Personas</h2></div>
+      <div className="skeleton-table" aria-hidden>
+        {Array.from({length:5}).map((_,i)=>(<div key={i} className="skeleton-row" />))}
+      </div>
+    </div>
+  );
+  if (error) return <div className="card"><p className="status error">{error}</p></div>;
 
   return (
-    <div>
-      <h2>Personas</h2>
+    <div className="card fade-in">
+      <div className="card-header"><h2>Personas</h2></div>
       {data.length === 0 && <p>No hay personas.</p>}
-      <table>
+      <div className="table-wrapper">
+      <table className="data-table">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -50,6 +58,7 @@ export default function PersonasList() {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

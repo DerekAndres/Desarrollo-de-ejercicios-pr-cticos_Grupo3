@@ -1,3 +1,111 @@
+# Configuración de Base de Datos
+
+Puedes inicializar la base de datos MongoDB de dos maneras: usando Docker Compose o una instalación local de Mongo.
+
+## 1. Usando Docker Compose (recomendado)
+
+Archivo: `docker-compose.yml` ya incluido.
+
+Pasos:
+1. Copia `.env.example` a `.env` y ajusta valores si es necesario.
+2. Levanta los servicios:
+  ```bash
+  docker compose up -d --build
+  ```
+3. La API quedará disponible en `http://localhost:3000` y Mongo en el puerto `27017`.
+
+El script `mongo-init.js` se ejecuta automáticamente dentro del contenedor y crea:
+- Colecciones: `personas`, `usuarios`
+- Índices únicos en `email` para ambas colecciones
+- Índice compuesto `{ rol: 1, activo: 1 }` en `usuarios`
+
+## 2. Instalación local de Mongo + script
+
+1. Instala MongoDB y `mongosh` (https://www.mongodb.com/try/download/community y shell).
+2. Asegúrate de que el servicio Mongo esté corriendo (por defecto puerto 27017).
+3. Ejecuta:
+  ```powershell
+  # En Windows PowerShell
+  ./init-mongo.ps1
+  # O con una URI personalizada (por ejemplo si tienes auth):
+  ./init-mongo.ps1 -MongoUri "mongodb://actuser:actpass@localhost:27017/actmongo?authSource=admin"
+  ```
+4. Verifica índices:
+  ```bash
+  mongosh actmongo --eval "db.usuarios.getIndexes()"
+  mongosh actmongo --eval "db.personas.getIndexes()"
+  ```
+
+## Variables de Entorno
+
+Archivo `.env` (ejemplo):
+```
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/actmongo
+```
+Si usas Docker (con usuario y clave):
+```
+MONGO_URI=mongodb://actuser:actpass@localhost:27017/actmongo?authSource=admin
+```
+
+## Esquemas (resumen)
+
+`usuarios`:
+```json
+{
+  "nombre": "String (req)",
+  "email": "String (req, unique, lowercase)",
+  "password": "String (req, >=6) - almacenado hasheado",
+  "rol": "enum(admin|usuario|moderador) default usuario",
+  "activo": "Boolean default true",
+  "ultimoLogin": "Date|null",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+`personas`:
+```json
+{
+  "nombre": "String (req)",
+  "edad": "Number (req)",
+  "email": "String (req, unique)"
+}
+```
+
+## Rutas Principales
+
+- `POST /api/usuarios` crear usuario
+- `GET /api/usuarios` listar usuarios
+- `GET /api/usuarios/:id` obtener usuario
+- `PUT /api/usuarios/:id` actualizar
+- `DELETE /api/usuarios/:id` eliminar
+- `PATCH /api/usuarios/:id/login` actualizar `ultimoLogin`
+
+- `POST /api/personas` crear persona
+- `GET /api/personas` listar personas
+- `GET /api/personas/:id` obtener persona
+- `PUT /api/personas/:id` actualizar
+- `DELETE /api/personas/:id` eliminar
+
+## Flujo de Inicio Rápido
+
+```bash
+cp .env.example .env
+docker compose up -d --build
+# o si local:
+# ./init-mongo.ps1  (Windows)
+npm run dev
+```
+
+Frontend (si configurado con Vite):
+```bash
+cd frontend
+npm run dev
+```
+
+Listo. El frontend consume `http://localhost:3000/api/*` vía proxy.
+
 # API de Usuarios - Pruebas
 
 ## Endpoints Disponibles
